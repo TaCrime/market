@@ -11,11 +11,11 @@ public enum Location {
                             "lsPublisherId", "false",
                             "sort", "price",
                             "order", "asc")),
-    BestBuy("BestBuy", "http", "api.walmartlabs.com", "/v1/search", "query",
-            ImmutableMap.of("apiKey", "rm25tyum3p9jm9x9x7zxshfa",
-                    "lsPublisherId", "false",
-                    "sort", "price",
-                    "order", "asc"));
+    BESTBUY("BESTBUY", "http", "api.bestbuy.com", "/v1/products", "name",
+            ImmutableMap.of("apiKey", "pfe9fpy68yg28hvvma49sc89",
+                    "format", "json",
+                    "show", "name,salePrice",
+                    "sort", "salePrice.asc"));
 
     private final String name;
     private final String scheme;
@@ -33,8 +33,8 @@ public enum Location {
         this.parameters = parameters;
     }
 
-    public String getName() {
-        return name;
+    public String getName(String name) {
+        return this.name;
     }
 
     public String getScheme() {
@@ -46,6 +46,14 @@ public enum Location {
     }
 
     public String getPath() {
+        return path;
+    }
+
+    //todo ugly
+    public String getPath(Location location, String name) {
+        if (BESTBUY == location) {
+            return path + "(" + searchByNameParamName + "=" + name + ")";
+        }
         return path;
     }
 

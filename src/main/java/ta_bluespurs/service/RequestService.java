@@ -22,13 +22,13 @@ import java.util.Map;
 public class RequestService {
 
     public JSONObject getRequestResponse(Location location, String name) {
-        JSONObject jsonObject = null;
+        JSONObject jsonObject;
         CloseableHttpClient httpclient = HttpClients.createDefault();
         try {
             URIBuilder builder = new URIBuilder()
                     .setScheme(location.getScheme())
                     .setHost(location.getHost())
-                    .setPath(location.getPath());
+                    .setPath(location.getPath(location, name));
             builder.setParameter(location.getSearchByNameParamName(), name);
             Map<String, String> parameters = location.getParameters();
             for (String key: parameters.keySet()) {
@@ -50,11 +50,9 @@ public class RequestService {
                         throw new ClientProtocolException("Unexpected response status: " + status);
                     }
                 }
-
             };
             String responseBody = httpclient.execute(httpget, responseHandler);
-              jsonObject = new JSONObject(responseBody);
-//            JSONArray array = myObject.getJSONArray("items");
+            jsonObject = new JSONObject(responseBody);
         } catch (IOException | URISyntaxException e) {
             //todo log
             return null;

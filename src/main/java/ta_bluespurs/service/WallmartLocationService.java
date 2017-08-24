@@ -23,7 +23,7 @@ public class WallmartLocationService implements LocationService {
 
     @Override
     public Product getCheapestProductByName(String name){
-        JSONObject response = requestService.getRequestResponse(WALLMART, name);
+        JSONObject response = requestService.getRequestResponse(getLocation(), getNameParameter(name));
 
         return parseResponse(response);
     }
@@ -41,6 +41,11 @@ public class WallmartLocationService implements LocationService {
     @Override
     public BigDecimal getPrice(JSONObject object) {
         return object.getBigDecimal(PRICE_KEY);
+    }
+
+    @Override
+    public String getNameParameter(String name) {
+        return name;
     }
 
     @Override
