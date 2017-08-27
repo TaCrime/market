@@ -1,9 +1,4 @@
-package ta_bluespurs.controller;
-
-import ta_bluespurs.domain.Currency;
-import ta_bluespurs.domain.Location;
-import ta_bluespurs.domain.Product;
-import ta_bluespurs.domain.SampleResponse;
+package ta_bluespurs.domain;
 
 import java.math.BigDecimal;
 
@@ -23,7 +18,7 @@ public class ProductFixture {
         private String productName = PRODUCT_NAME;
         private BigDecimal price = BigDecimal.TEN;
         private Currency currency = Currency.CAD;
-        private Location location = Location.WALLMART;
+        private LocationTypes location = LocationTypes.WALMART;
 
         public Product build() {
             return new Product(productName, price, currency, location);
@@ -40,7 +35,7 @@ public class ProductFixture {
         }
 
 
-        public ProductFixtureBuilder setLocation(Location location) {
+        public ProductFixtureBuilder setLocation(LocationTypes location) {
             this.location = location;
             return this;
         }

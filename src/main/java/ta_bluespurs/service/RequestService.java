@@ -28,7 +28,7 @@ public class RequestService {
             URIBuilder builder = new URIBuilder()
                     .setScheme(location.getScheme())
                     .setHost(location.getHost())
-                    .setPath(location.getPath(location, name));
+                    .setPath(location.getPath(name));
             builder.setParameter(location.getSearchByNameParamName(), name);
             Map<String, String> parameters = location.getParameters();
             for (String key: parameters.keySet()) {
@@ -37,18 +37,13 @@ public class RequestService {
             URI uri = builder.build();
             HttpGet httpget = new HttpGet(uri);
 
-            ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
-
-                @Override
-                public String handleResponse(
-                        final HttpResponse response) throws IOException {
-                    int status = response.getStatusLine().getStatusCode();
-                    if (status >= 200 && status < 300) {
-                        HttpEntity entity = response.getEntity();
-                        return entity != null ? EntityUtils.toString(entity) : null;
-                    } else {
-                        throw new ClientProtocolException("Unexpected response status: " + status);
-                    }
+            ResponseHandler<String> responseHandler = response -> {
+                int status = response.getStatusLine().getStatusCode();
+                if (status >= 200 && status < 300) {
+                    HttpEntity entity = response.getEntity();
+                    return entity != null ? EntityUtils.toString(entity) : null;
+                } else {
+                    throw new ClientProtocolException("Unexpected response status: " + status);
                 }
             };
             String responseBody = httpclient.execute(httpget, responseHandler);

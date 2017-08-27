@@ -8,19 +8,14 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-import ta_bluespurs.controller.ProductFixture;
-import ta_bluespurs.domain.Product;
+import ta_bluespurs.domain.*;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.NoSuchElementException;
 
-
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -30,10 +25,8 @@ public class ProductServiceTest {
     @InjectMocks
     private ProductService productService;
 
-    @Mock private WallmartLocationService wallmartLocationService;
-    @Mock private BestBuyLocationService bestBuyLocationService;
+    @Mock LocationService locationService;
 
-    @Spy private List<LocationService> locationServices = new ArrayList<LocationService>();
 
     @Rule public ExpectedException thrown = ExpectedException.none();
 
@@ -41,14 +34,16 @@ public class ProductServiceTest {
     private Product lowPrice = ProductFixture.builder().setPrice(BigDecimal.ZERO).build();
     private Product middlePrice = ProductFixture.builder().setPrice(BigDecimal.ONE).build();
 
+    private Location walmart = LocationFixture.createLocation();
+    private Location bestBuy = LocationFixture.builder().setType(LocationTypes.BESTBUY).build();
+
     @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
-        locationServices.add(bestBuyLocationService);
-        locationServices.add(wallmartLocationService);
 
-        when(wallmartLocationService.getCheapestProductByName(anyString())).thenReturn(lowPrice);
-        when(bestBuyLocationService.getCheapestProductByName(anyString())).thenReturn(highPrice);
+        when(locationService.getAllLocations()).thenReturn(asList(walmart, bestBuy));
+        when(locationService.getCheapestProductByName(walmart, TEST_NAME)).thenReturn(highPrice);
+        when(locationService.getCheapestProductByName(bestBuy, TEST_NAME)).thenReturn(lowPrice);
     }
 
     @Test
@@ -59,8 +54,8 @@ public class ProductServiceTest {
 
     @Test
     public void getCheapestItemByName_noItemsFoundOnLocations_NoSuchElementExceptionThrown() {
-        when(wallmartLocationService.getCheapestProductByName(anyString())).thenReturn(null);
-        when(bestBuyLocationService.getCheapestProductByName(anyString())).thenReturn(null);
+        when(locationService.getCheapestProductByName(walmart, TEST_NAME)).thenReturn(null);
+        when(locationService.getCheapestProductByName(bestBuy, TEST_NAME)).thenReturn(null);
 
         thrown.expect(NoSuchElementException.class);
         thrown.expectMessage(String.format("No item with name %s was found", TEST_NAME));
@@ -70,8 +65,8 @@ public class ProductServiceTest {
 
     @Test
     public void getCheapestItemByName_oneItemFoundOnLocations_itemIsReturned() {
-        when(wallmartLocationService.getCheapestProductByName(anyString())).thenReturn(null);
-        when(bestBuyLocationService.getCheapestProductByName(anyString())).thenReturn(middlePrice);
+        when(locationService.getCheapestProductByName(walmart, TEST_NAME)).thenReturn(null);
+        when(locationService.getCheapestProductByName(bestBuy, TEST_NAME)).thenReturn(middlePrice);
 
         Product cheapestItemByName = productService.getCheapestItemByName(TEST_NAME);
         assertThat(cheapestItemByName).isEqualTo(middlePrice);

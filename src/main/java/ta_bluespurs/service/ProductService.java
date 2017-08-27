@@ -15,18 +15,20 @@ import static org.springframework.util.CollectionUtils.isEmpty;
 @Service
 public class ProductService {
 
-    private List<LocationService> locationServices;
+    private LocationService locationService;
+
     private final Comparator<Product> priceComparatorAsc
             = Comparator.comparing(Product::getPrice);
 
     @Autowired
-    public ProductService(List<LocationService> locations) {
-        this.locationServices = locations;
+    public ProductService(LocationService locationService) {
+        this.locationService = locationService;
     }
 
     public Product getCheapestItemByName(final String name) {
-        List<Product> cheapestInLocation = locationServices.stream()
-                .map(l -> l.getCheapestProductByName(name))
+        //todo LocationServiceResponsibility
+        List<Product> cheapestInLocation = locationService.getAllLocations().stream()
+                .map(l -> locationService.getCheapestProductByName(l, name))
                 .filter(Objects::nonNull)
                 .collect(toList());
         if (isEmpty(cheapestInLocation)) {

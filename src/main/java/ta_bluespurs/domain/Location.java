@@ -1,40 +1,48 @@
 package ta_bluespurs.domain;
 
-import com.google.common.collect.ImmutableMap;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-import java.util.HashMap;
+import java.math.BigDecimal;
 import java.util.Map;
 
-public enum Location {
-    WALLMART("Walmart", "http", "api.walmartlabs.com", "/v1/search", "query",
-            ImmutableMap.of("apiKey", "rm25tyum3p9jm9x9x7zxshfa",
-                            "lsPublisherId", "false",
-                            "sort", "price",
-                            "order", "asc")),
-    BESTBUY("BESTBUY", "http", "api.bestbuy.com", "/v1/products", "name",
-            ImmutableMap.of("apiKey", "pfe9fpy68yg28hvvma49sc89",
-                    "format", "json",
-                    "show", "name,salePrice",
-                    "sort", "salePrice.asc"));
 
-    private final String name;
-    private final String scheme;
-    private final String host;
-    private final String path;
-    private final String searchByNameParamName;
-    private final Map<String, String> parameters;
+public class Location {
 
-    Location(String name, String scheme, String host, String path, String searchByNameParamName, Map<String, String> parameters) {
-        this.name = name;
+    private String id;
+    private LocationTypes type;
+    private String scheme;
+    private String host;
+    private String path;
+    private String searchByNameParamName;
+    private Map<String, String> parameters;
+    private String items_key;
+    private String price_key;
+    private String name_key;
+
+    //todo testonly
+    public Location(LocationTypes type, String items_key, String price_key, String name_key) {
+        this.type = type;
+        this.items_key = items_key;
+        this.price_key = price_key;
+        this.name_key = name_key;
+    }
+
+    public Location(LocationTypes type, String scheme, String host, String path, String searchByNameParamName, Map<String, String> parameters, String items_key, String price_key, String name_key) {
+        //todo assert
+        this.type = type;
         this.scheme = scheme;
         this.host = host;
         this.path = path;
         this.searchByNameParamName = searchByNameParamName;
         this.parameters = parameters;
+        this.items_key = items_key;
+        this.price_key = price_key;
+        this.name_key = name_key;
     }
 
-    public String getName(String name) {
-        return this.name;
+    public String getName() {
+        return type.getName();
     }
 
     public String getScheme() {
@@ -49,12 +57,8 @@ public enum Location {
         return path;
     }
 
-    //todo ugly
-    public String getPath(Location location, String name) {
-        if (BESTBUY == location) {
-            return path + "(" + searchByNameParamName + "=" + name + ")";
-        }
-        return path;
+    public String getPath(String searchName) {
+        return String.format(path, searchName);
     }
 
     public String getSearchByNameParamName() {
@@ -62,7 +66,23 @@ public enum Location {
     }
 
     public Map<String, String> getParameters() {
+        //todo unmodifiable list
         return parameters;
     }
 
+    public LocationTypes getType() {
+        return type;
+    }
+
+    public JSONArray getProductItems(JSONObject object) {
+        return object.getJSONArray(items_key);
+    }
+
+    public String getNameFrom(JSONObject object) {
+        return object.getString(name_key);
+    }
+
+    public BigDecimal getPrice(JSONObject object) {
+        return object.getBigDecimal(price_key);
+    }
 }

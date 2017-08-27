@@ -9,11 +9,11 @@ public class Product {
     private String productName;
     private BigDecimal price;
     private Currency currency = Currency.CAD;
-    private Location location;
+    private LocationTypes location;
 
     public Product() {}
 
-    public Product(String productName, BigDecimal price, Currency currency, Location location) {
+    public Product(String productName, BigDecimal price, Currency currency, LocationTypes location) {
         if(isEmpty(productName) || price == null) {
             throw new IllegalArgumentException("Wrong product initial data");
         }
@@ -35,7 +35,7 @@ public class Product {
         return currency;
     }
 
-    public Location getLocation() {
+    public LocationTypes getLocation() {
         return location;
     }
 }

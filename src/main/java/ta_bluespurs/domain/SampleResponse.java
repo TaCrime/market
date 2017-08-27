@@ -6,13 +6,13 @@ public class SampleResponse {
     private String productName;
     private BigDecimal bestPrice;
     private Currency currency;
-    private Location location;
+    private LocationTypes location;
 
     public SampleResponse(Product product) {
         this(product.getProductName(), product.getPrice(), product.getCurrency(), product.getLocation());
     }
 
-    public SampleResponse(String productName, BigDecimal bestPrice, Currency currency, Location location) {
+    public SampleResponse(String productName, BigDecimal bestPrice, Currency currency, LocationTypes location) {
         this.productName = productName;
         this.bestPrice = bestPrice;
         this.currency = currency;
@@ -31,7 +31,7 @@ public class SampleResponse {
         return currency;
     }
 
-    public Location getLocation() {
+    public LocationTypes getLocation() {
         return location;
     }
 

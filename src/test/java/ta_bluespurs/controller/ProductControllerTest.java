@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import ta_bluespurs.domain.Product;
+import ta_bluespurs.domain.ProductFixture;
 import ta_bluespurs.service.ProductService;
 
 import static org.mockito.Mockito.when;
