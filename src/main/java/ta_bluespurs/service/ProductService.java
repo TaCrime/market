@@ -2,6 +2,7 @@ package ta_bluespurs.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ta_bluespurs.domain.Product;
 
 import java.util.Comparator;
@@ -25,6 +26,7 @@ public class ProductService {
         this.locationService = locationService;
     }
 
+    @Transactional
     public Product getCheapestItemByName(final String name) {
         //todo LocationServiceResponsibility
         List<Product> cheapestInLocation = locationService.getAllLocations().stream()
@@ -35,6 +37,6 @@ public class ProductService {
             throw new NoSuchElementException(
                 String.format("No item with name %s was found",name));
         }
-        return cheapestInLocation.stream().min(priceComparatorAsc).get();
+        return cheapestInLocation.stream().min(priceComparatorAsc).orElse(null);
     }
 }

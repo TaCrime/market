@@ -2,6 +2,8 @@ package ta_bluespurs.domain;
 
 import java.math.BigDecimal;
 
+import static ta_bluespurs.utils.Assert.assertAllPresent;
+
 public class SampleResponse {
     private String productName;
     private BigDecimal bestPrice;
@@ -13,6 +15,7 @@ public class SampleResponse {
     }
 
     public SampleResponse(String productName, BigDecimal bestPrice, Currency currency, LocationTypes location) {
+        assertAllPresent(productName, bestPrice, currency, location);
         this.productName = productName;
         this.bestPrice = bestPrice;
         this.currency = currency;

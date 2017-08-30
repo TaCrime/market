@@ -1,35 +1,49 @@
 package ta_bluespurs.domain;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
+import static java.util.Collections.unmodifiableList;
+import static ta_bluespurs.utils.Assert.assertAllPresent;
 
-public class Location {
+@Entity
+@Table(name = "location")
+public class Location extends Identifiable {
 
-    private String id;
+    @Enumerated(EnumType.STRING)
     private LocationTypes type;
+    @Column (nullable = false)
     private String scheme;
+    @Column(nullable = false)
     private String host;
+    @Column(nullable = false)
     private String path;
+    @Column(nullable = false)
     private String searchByNameParamName;
-    private Map<String, String> parameters;
+
+    @OneToMany
+    @JoinColumn(name = "location_id")
+    private List<RequestParam> parameters = new ArrayList<>();
+
+    @Column(nullable = false)
     private String items_key;
+
+    @Column(nullable = false)
     private String price_key;
+    @Column(nullable = false)
     private String name_key;
 
-    //todo testonly
-    public Location(LocationTypes type, String items_key, String price_key, String name_key) {
-        this.type = type;
-        this.items_key = items_key;
-        this.price_key = price_key;
-        this.name_key = name_key;
-    }
+    public Location(){}
 
-    public Location(LocationTypes type, String scheme, String host, String path, String searchByNameParamName, Map<String, String> parameters, String items_key, String price_key, String name_key) {
-        //todo assert
+    public Location(LocationTypes type, String scheme, String host, String path, String searchByNameParamName,
+                    List<RequestParam> parameters, String items_key, String price_key, String name_key) {
+        assertAllPresent(type, scheme, host, path, searchByNameParamName, parameters, items_key, price_key, name_key);
         this.type = type;
         this.scheme = scheme;
         this.host = host;
@@ -65,9 +79,8 @@ public class Location {
         return searchByNameParamName;
     }
 
-    public Map<String, String> getParameters() {
-        //todo unmodifiable list
-        return parameters;
+    public List<RequestParam> getParameters() {
+        return unmodifiableList(parameters);
     }
 
     public LocationTypes getType() {

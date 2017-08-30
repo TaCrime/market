@@ -39,7 +39,7 @@ public class ProductServiceTest {
 
     @Before
     public void init() {
-        MockitoAnnotations.initMocks(this);
+//        MockitoAnnotations.initMocks(this);
 
         when(locationService.getAllLocations()).thenReturn(asList(walmart, bestBuy));
         when(locationService.getCheapestProductByName(walmart, TEST_NAME)).thenReturn(highPrice);

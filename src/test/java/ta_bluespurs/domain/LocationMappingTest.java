@@ -1,0 +1,64 @@
+package ta_bluespurs.domain;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
+import ta_bluespurs.configuration.BeansForTestConfiguration;
+import ta_bluespurs.configuration.TestConfig;
+import ta_bluespurs.repository.LocationRepository;
+import ta_bluespurs.repository.RequestParamRepository;
+
+import java.util.List;
+
+import static java.util.Arrays.asList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static ta_bluespurs.domain.LocationFixture.builder;
+import static ta_bluespurs.domain.LocationFixture.createLocation;
+import static ta_bluespurs.domain.RequestParamFixture.createRequestParameter;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = { TestConfig.class, BeansForTestConfiguration.class })
+public class LocationMappingTest {
+
+    @Autowired LocationRepository locationRepository;
+    @Autowired RequestParamRepository requestParamRepository;
+
+    RequestParam param1 = createRequestParameter();
+    RequestParam param2 = createRequestParameter();
+    Location location1 = createLocation();
+    Location location2;
+
+    @Test
+    @Transactional
+    public void getAllSavedLocations() {
+        location1 = locationRepository.save(location1);
+
+        persistEntities();
+
+        List<Location> locations = locationRepository.getAll();
+        assertThat(locations).containsOnly(location1, location2);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSavedParameters() {
+        persistEntities();
+
+        List<Location> locations = locationRepository.getAll();
+        assertThat(locations).hasSize(1);
+        assertThat(locations.get(0).getParameters()).containsOnly(param1, param2);
+    }
+
+    private void persistEntities() {
+        param1 = requestParamRepository.save(param1);
+        param2 = requestParamRepository.save(param2);
+        location2 = builder().setType(LocationTypes.BESTBUY).setParameters(asList(param1, param2)).build();
+        location2 = locationRepository.save(location2);
+
+        locationRepository.flushAndClear();
+        requestParamRepository.flushAndClear();
+    }
+}

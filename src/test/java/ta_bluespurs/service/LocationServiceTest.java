@@ -8,6 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import ta_bluespurs.domain.*;
+import ta_bluespurs.repository.LocationRepository;
 
 
 import java.util.Collections;

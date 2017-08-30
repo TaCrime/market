@@ -4,7 +4,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ta_bluespurs.domain.Location;
-import ta_bluespurs.domain.LocationRepository;
+import ta_bluespurs.repository.LocationRepository;
 import ta_bluespurs.domain.Product;
 
 import java.util.List;

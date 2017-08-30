@@ -12,10 +12,12 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 import ta_bluespurs.domain.Location;
+import ta_bluespurs.domain.RequestParam;
 
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -30,10 +32,8 @@ public class RequestService {
                     .setHost(location.getHost())
                     .setPath(location.getPath(name));
             builder.setParameter(location.getSearchByNameParamName(), name);
-            Map<String, String> parameters = location.getParameters();
-            for (String key: parameters.keySet()) {
-                builder.setParameter(key, parameters.get(key));
-            }
+            List<RequestParam> parameters = location.getParameters();
+            parameters.forEach(param -> builder.setParameter(param.getName(), param.getValue()));
             URI uri = builder.build();
             HttpGet httpget = new HttpGet(uri);
 
