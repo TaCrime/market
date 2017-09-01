@@ -1,4 +1,4 @@
-package ta_bluespurs.service;
+package ta_bluespurs.service.parser;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -15,18 +15,18 @@ import java.util.stream.StreamSupport;
 import static java.util.Collections.emptyList;
 
 @Service
-public class LocationResponseParser {
+public class LocationProductsResponseParser implements ResponseParser<Location, Product> {
 
-    public List<Product> mapFirstItemsFromResponceToProducts(JSONObject response, Location location, int number) {
+    public List<Product> mapFirstItemsFromResponseToObjects(JSONObject response, Location location, int number) {
         if (response == null) {
             return emptyList();
         }
         JSONArray productItems = location.getProductItems(response);
-        //todo possible exceptions
-        return arrayToStream(productItems).limit(number)
+        return arrayToStream(productItems)
+                .limit(number)
                 .map(JSONObject.class::cast)
                 .map(jsonObject -> new Product(location.getNameFrom(jsonObject), location.getPrice(jsonObject),
-                        Currency.CAD, location.getType()))
+                        Currency.CAD, location.getLocationType()))
                 .collect(Collectors.toList());
     }
 

@@ -20,6 +20,6 @@ public class ExceptionResponseAdviser {
         ErrorResponse error = new ErrorResponse();
         error.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
         error.setMessage(e.getMessage());
-        return new ResponseEntity<ErrorResponse>(error, HttpStatus.OK);
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

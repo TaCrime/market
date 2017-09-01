@@ -8,13 +8,13 @@ public class SampleResponse {
     private String productName;
     private BigDecimal bestPrice;
     private Currency currency;
-    private LocationTypes location;
+    private LocationType location;
 
     public SampleResponse(Product product) {
         this(product.getProductName(), product.getPrice(), product.getCurrency(), product.getLocation());
     }
 
-    public SampleResponse(String productName, BigDecimal bestPrice, Currency currency, LocationTypes location) {
+    public SampleResponse(String productName, BigDecimal bestPrice, Currency currency, LocationType location) {
         assertAllPresent(productName, bestPrice, currency, location);
         this.productName = productName;
         this.bestPrice = bestPrice;
@@ -34,7 +34,7 @@ public class SampleResponse {
         return currency;
     }
 
-    public LocationTypes getLocation() {
+    public LocationType getLocation() {
         return location;
     }
 

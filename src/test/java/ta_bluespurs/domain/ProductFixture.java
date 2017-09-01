@@ -18,7 +18,7 @@ public class ProductFixture {
         private String productName = PRODUCT_NAME;
         private BigDecimal price = BigDecimal.TEN;
         private Currency currency = Currency.CAD;
-        private LocationTypes location = LocationTypes.WALMART;
+        private LocationType location = LocationType.WALMART;
 
         public Product build() {
             return new Product(productName, price, currency, location);
@@ -35,7 +35,7 @@ public class ProductFixture {
         }
 
 
-        public ProductFixtureBuilder setLocation(LocationTypes location) {
+        public ProductFixtureBuilder setLocation(LocationType location) {
             this.location = location;
             return this;
         }

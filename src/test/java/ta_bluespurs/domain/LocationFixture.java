@@ -1,7 +1,7 @@
 package ta_bluespurs.domain;
 
-import javax.persistence.Column;
-import javax.persistence.OneToMany;
+import ta_bluespurs.domain.uri_builder.URIBuilderSearchType;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -20,7 +20,7 @@ public class LocationFixture {
     }
 
     public static class LocationFixtureBuilder {
-        private LocationTypes type = LocationTypes.WALMART;
+        private LocationType type = LocationType.WALMART;
         private String scheme = "http1";
         private String host = "www.test";
         private String path = "/";
@@ -29,19 +29,45 @@ public class LocationFixture {
         private String items_key = ITEMS_KEY;
         private String price_key = PRICE_KEY;
         private String name_key = NAME_KEY;
+        private URIBuilderSearchType searchType = URIBuilderSearchType.PARAMETER_SEARCH;
 
 
         public Location build() {
-            return new Location(type, scheme, host, path, searchByNameParamName, parameters, items_key, price_key, name_key);
+            return new Location(type, scheme, host, path, searchByNameParamName, searchType, parameters, items_key, price_key, name_key);
         }
 
-        public LocationFixtureBuilder setType(LocationTypes type) {
+        public LocationFixtureBuilder setType(LocationType type) {
             this.type = type;
             return this;
         }
 
         public LocationFixtureBuilder setParameters(List<RequestParam> parameters) {
             this.parameters = parameters;
+            return this;
+        }
+
+        public LocationFixtureBuilder setSearchType(URIBuilderSearchType searchType) {
+            this.searchType = searchType;
+            return this;
+        }
+
+        public LocationFixtureBuilder setScheme(String scheme) {
+            this.scheme = scheme;
+            return this;
+        }
+
+        public LocationFixtureBuilder setHost(String host) {
+            this.host = host;
+            return this;
+        }
+
+        public LocationFixtureBuilder setPath(String path) {
+            this.path = path;
+            return this;
+        }
+
+        public LocationFixtureBuilder setSearchByNameParamName(String searchByNameParamName) {
+            this.searchByNameParamName = searchByNameParamName;
             return this;
         }
     }

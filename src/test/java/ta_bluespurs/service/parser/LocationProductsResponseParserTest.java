@@ -1,4 +1,4 @@
-package ta_bluespurs.service;
+package ta_bluespurs.service.parser;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -16,13 +16,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static ta_bluespurs.domain.LocationFixture.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class LocationResponseParserTest {
+public class LocationProductsResponseParserTest {
 
     public static final String NAME_VALUE = "Object_Name";
     private static final BigDecimal PRICE_VALUE = BigDecimal.TEN;
     public static final int NUMBER_OF_PRODUCTS_TO_RETURN = 1;
 
-    @InjectMocks private LocationResponseParser parser;
+    @InjectMocks private LocationProductsResponseParser parser;
 
     private Location location = LocationFixture.createLocation();
     private JSONObject response = new JSONObject();
@@ -34,18 +34,18 @@ public class LocationResponseParserTest {
 
     @Test
     public void responseIsNull_returnsEmptyList() {
-        assertThat(parser.mapFirstItemsFromResponceToProducts(null, location, 1)).isEmpty();
+        assertThat(parser.mapFirstItemsFromResponseToObjects(null, location, 1)).isEmpty();
     }
 
         @Test
     public void getCheapestProductByName() throws Exception {
-        List<Product> products = parser.mapFirstItemsFromResponceToProducts(response, location, NUMBER_OF_PRODUCTS_TO_RETURN);
+        List<Product> products = parser.mapFirstItemsFromResponseToObjects(response, location, NUMBER_OF_PRODUCTS_TO_RETURN);
 
         assertThat(products).hasSize(NUMBER_OF_PRODUCTS_TO_RETURN);
         assertThat(products.get(0).getPrice()).isEqualTo(PRICE_VALUE);
         assertThat(products.get(0).getProductName()).isEqualTo(NAME_VALUE);
         assertThat(products.get(0).getCurrency()).isEqualTo(Currency.CAD);
-        assertThat(products.get(0).getLocation()).isEqualTo(LocationTypes.WALMART);
+        assertThat(products.get(0).getLocation()).isEqualTo(LocationType.WALMART);
     }
 
 

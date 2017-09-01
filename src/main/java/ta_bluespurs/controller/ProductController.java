@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ta_bluespurs.domain.SampleResponse;
 import ta_bluespurs.service.ProductService;
 
+import static org.springframework.util.StringUtils.isEmpty;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @RestController
@@ -27,7 +28,7 @@ public class ProductController {
     @RequestMapping(value = "/search", method = GET)
     @ResponseBody
     public SampleResponse search(@RequestParam("name") String name) {
-        if (StringUtils.isEmpty(name)) {
+        if (isEmpty(name)) {
             throw new IllegalArgumentException(NAME_SHOULD_NOT_BE_EMPTY);
         }
         return new SampleResponse(productService.getCheapestItemByName(name));

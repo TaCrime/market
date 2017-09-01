@@ -35,16 +35,17 @@ public class HibernateConfiguration {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.hsqldb.jdbcDriver");
-        dataSource.setUrl("jdbc:hsqldb:data/task_test");
+        dataSource.setUrl("jdbc:hsqldb:data/task");
         dataSource.setUsername("sa");
         dataSource.setPassword("");
         return dataSource;
     }
 
-    private Properties hibernateProperties() {
+    protected Properties hibernateProperties() {
         Properties properties = new Properties();
         properties.put("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
         properties.put("hibernate.hbm2ddl.auto", "create-drop");
+        properties.put("hibernate.hbm2ddl.import_files", "populate.sql");
         return properties;
     }
 

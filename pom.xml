@@ -24,6 +24,8 @@
         <hibernate-core.version>4.3.10.Final</hibernate-core.version>
         <hsqldb.version>2.3.4</hsqldb.version>
         <annotations.version>15.0</annotations.version>
+        <slf4j-log4j12.version>1.7.25</slf4j-log4j12.version>
+        <log4j.version>1.2.17</log4j.version>
     </properties>
 
     <dependencies>
@@ -90,6 +92,17 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.version}</version>
+        </dependency>
+        <!--logging-->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j-log4j12.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.version}</version>
         </dependency>
 
         <dependency>

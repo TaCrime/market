@@ -27,7 +27,7 @@ public class LocationMappingTest {
     @Autowired RequestParamRepository requestParamRepository;
 
     RequestParam param1 = createRequestParameter();
-    RequestParam param2 = createRequestParameter();
+    RequestParam param2 = RequestParamFixture.builder().setName("anotherName").build();
     Location location1 = createLocation();
     Location location2;
 
@@ -52,10 +52,28 @@ public class LocationMappingTest {
         assertThat(locations.get(0).getParameters()).containsOnly(param1, param2);
     }
 
+    @Test
+    @Transactional
+    public void getAllFields() {
+        locationRepository.save(location1);
+        locationRepository.flushAndClear();
+
+        List<Location> locations = locationRepository.getAll();
+        assertThat(locations).hasSize(1);
+        Location location = locations.get(0);
+        assertThat(location.getSearchType()).isEqualTo(location1.getSearchType());
+        assertThat(location.getName()).isEqualTo(location1.getName());
+        assertThat(location.getScheme()).isEqualTo(location1.getScheme());
+        assertThat(location.getHost()).isEqualTo(location1.getHost());
+        assertThat(location.getPath()).isEqualTo(location1.getPath());
+        assertThat(location.getSearchByNameParamName()).isEqualTo(location1.getSearchByNameParamName());
+        assertThat(location.getLocationType()).isEqualTo(location1.getLocationType());
+    }
+
     private void persistEntities() {
         param1 = requestParamRepository.save(param1);
         param2 = requestParamRepository.save(param2);
-        location2 = builder().setType(LocationTypes.BESTBUY).setParameters(asList(param1, param2)).build();
+        location2 = builder().setType(LocationType.BESTBUY).setParameters(asList(param1, param2)).build();
         location2 = locationRepository.save(location2);
 
         locationRepository.flushAndClear();

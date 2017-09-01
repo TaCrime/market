@@ -24,8 +24,7 @@ public class ProductControllerTest {
     public static final String ITEM_TO_FIND_NAME = "ItemToFind";
     @InjectMocks private ProductController productController;
 
-    @Mock
-    ProductService productService;
+    @Mock ProductService productService;
 
     private MockMvc mockMvc;
     private Product product = ProductFixture.createProduct();

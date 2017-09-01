@@ -1,13 +1,16 @@
 package ta_bluespurs.domain;
 
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import static ta_bluespurs.utils.Assert.assertAllPresent;
 
 @Entity
-@Table(name = "request_parameter")
+@Table(name = "request_parameter",
+        uniqueConstraints=
+        @UniqueConstraint(columnNames={"location_id", "name"}))
 public class RequestParam  extends  Identifiable{
 
     @Column (nullable = false)

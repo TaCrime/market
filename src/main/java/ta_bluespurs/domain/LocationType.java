@@ -1,11 +1,11 @@
 package ta_bluespurs.domain;
 
-public enum LocationTypes {
+public enum LocationType {
     WALMART("Walmart"), BESTBUY("BestBuy");
 
     private String name;
 
-    LocationTypes(String name) {
+    LocationType(String name) {
         this.name = name;
     }
 

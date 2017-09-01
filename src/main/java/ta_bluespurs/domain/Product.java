@@ -2,21 +2,19 @@ package ta_bluespurs.domain;
 
 import java.math.BigDecimal;
 
-import static org.springframework.util.StringUtils.isEmpty;
+import static ta_bluespurs.utils.Assert.assertAllPresent;
 
 public class Product {
 
     private String productName;
     private BigDecimal price;
     private Currency currency = Currency.CAD;
-    private LocationTypes location;
+    private LocationType location;
 
     public Product() {}
 
-    public Product(String productName, BigDecimal price, Currency currency, LocationTypes location) {
-        if(isEmpty(productName) || price == null) {
-            throw new IllegalArgumentException("Wrong product initial data");
-        }
+    public Product(String productName, BigDecimal price, Currency currency, LocationType location) {
+        assertAllPresent(productName, price);
         this.productName = productName;
         this.price = price;
         this.currency = currency;
@@ -35,7 +33,7 @@ public class Product {
         return currency;
     }
 
-    public LocationTypes getLocation() {
+    public LocationType getLocation() {
         return location;
     }
 }
