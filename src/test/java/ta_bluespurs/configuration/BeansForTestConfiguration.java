@@ -6,7 +6,7 @@ import ta_bluespurs.repository.LocationRepository;
 import ta_bluespurs.repository.RequestParamRepository;
 
 @Configuration
-public class BeansForTestConfiguration {
+public class  BeansForTestConfiguration {
 
     @Bean
     public LocationRepository getLocationRepository() {
