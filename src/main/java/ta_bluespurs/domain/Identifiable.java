@@ -11,8 +11,6 @@ import java.util.UUID;
 @MappedSuperclass
 public abstract class Identifiable  {
 
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(updatable=false, nullable = false)
     @Id
     String id = UUID.randomUUID().toString();

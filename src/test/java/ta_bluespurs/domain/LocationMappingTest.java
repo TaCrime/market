@@ -34,7 +34,7 @@ public class LocationMappingTest {
     @Test
     @Transactional
     public void getAllSavedLocations() {
-        location1 = locationRepository.save(location1);
+        locationRepository.save(location1);
 
         persistEntities();
 
@@ -71,10 +71,10 @@ public class LocationMappingTest {
     }
 
     private void persistEntities() {
-        param1 = requestParamRepository.save(param1);
-        param2 = requestParamRepository.save(param2);
+        requestParamRepository.save(param1);
+        requestParamRepository.save(param2);
         location2 = builder().setType(LocationType.BESTBUY).setParameters(asList(param1, param2)).build();
-        location2 = locationRepository.save(location2);
+        locationRepository.save(location2);
 
         locationRepository.flushAndClear();
         requestParamRepository.flushAndClear();
