@@ -19,6 +19,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 
 @RunWith(MockitoJUnitRunner.class)
 public class ProductControllerTest {
+    //some comment
 
     public static final String ITEM_TO_FIND_NAME = "ItemToFind";
     @InjectMocks private ProductController productController;
